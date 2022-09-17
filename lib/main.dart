@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Map<String, Marker> _markers = {};
+  LatLng currentLatLng = const LatLng(-7.914459, 112.5956338);
   Future<void> _onMapCreated(GoogleMapController controller) async {
     final googleOffices = await locations.getGoogleOffices();
     setState(() {
@@ -39,17 +40,26 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Google Office Locations'),
-          backgroundColor: Colors.green[700],
+          backgroundColor: Colors.blue,
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: const CameraPosition(
-            target: LatLng(0, 0),
-            zoom: 2,
+            target: LatLng(-7.914459, 112.5956338),
+            zoom: 11,
           ),
-          markers: _markers.values.toSet(),
+          markers: <Marker>{
+            Marker(markerId: const MarkerId("1"),
+              position: currentLatLng,
+              icon: BitmapDescriptor.defaultMarker,
+              infoWindow: const InfoWindow(
+                title: 'My House',
+              ),)
+          }
         ),
       ),
     );
+    
   }
+  
 }
